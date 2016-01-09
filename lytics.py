@@ -12,7 +12,7 @@
 
 from flask import Flask
 from flask import render_template
-import models
+import queries
 
 app = Flask(__name__)
 
@@ -20,12 +20,11 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 
-@app.route("/month/<int:year>/<int:month>")
+@app.route("/month/<year>/<month>")
 def month_view(year, month):
-    string = "Year: %d, month: %d" % (year,month)
-    expenditures = Session.query(models.Expenditure).all()
+    e = queries.get_expenditures_in_month(year,month)
     return render_template('finances/expenditures_by_month.jinja2',
-            expenditures=expenditures)
+            expenditures=e)
 
 if __name__ == "__main__":
         app.run(debug=True)
