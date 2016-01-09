@@ -1,4 +1,4 @@
-{% extends "finances/base.jinja2" %}
+{% extends "base.jinja2" %}
 
 {% block title %}Weekly Finances{% endblock %}
 
@@ -11,13 +11,21 @@
             <th>Date</th>
             <th>Time</th>
             <th>Description</th>
+            <th>cost</th>
           </tr>
         </thead>
+        {{ expenditures }}
         {% for expenditure in expenditures %}
+        <tbody>
         <tr>
           <td>{{ expenditure.date }}</td>
           <td>{{ expenditure.time }}</td>
           <td>{{ expenditure.description }}</td>
+          <td>{{ expenditure.cost }}</td>
         </tr>
         {% endfor %}
+        </tbody>
+      </table>
+    </div> <!-- /.primary -->
+  </div>   <!-- /.wrapper .main-table -->
 {% endblock %}

@@ -23,7 +23,7 @@ def hello():
 @app.route("/month/<year>/<month>")
 def month_view(year, month):
     e = queries.get_expenditures_in_month(year,month)
-    return render_template('finances/expenditures_by_month.jinja2',
+    return render_template('expenditures/month.jinja2',
             expenditures=e)
 
 if __name__ == "__main__":
