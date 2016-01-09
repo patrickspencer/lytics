@@ -3,5 +3,21 @@
 {% block title %}Weekly Finances{% endblock %}
 
 {% block content %}
-{{ string }}
+  <div class="wrapper main-table">
+    <div class="primary">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        {% for expenditure in expenditures %}
+        <tr>
+          <td>{{ expenditure.date }}</td>
+          <td>{{ expenditure.time }}</td>
+          <td>{{ expenditure.description }}</td>
+        </tr>
+        {% endfor %}
 {% endblock %}
