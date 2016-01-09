@@ -12,15 +12,9 @@
 
 from flask import Flask
 from flask import render_template
-from sqlalchemy import create_engine, inspect
-from sqlalchemy.orm import sessionmaker
 import models
 
 app = Flask(__name__)
-
-engine = create_engine('sqlite:///db.sqlite3', echo=True)
-session = sessionmaker(bind=engine)
-Session = session()
 
 @app.route("/")
 def hello():
