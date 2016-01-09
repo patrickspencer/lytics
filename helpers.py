@@ -3,11 +3,15 @@
     helpers
     ~~~~~~~
     Implements various helper functions.
+
     :copyright: (c) 2016 by Patrick Spencer.
     :license: Apache 2.0, see LICENSE for more details.
 """
 
-def month_bounds(self, year, month):
+from datetime import datetime, timedelta
+import calendar
+
+def month_bounds(year, month):
     """
     Returns a tuple of datetime objects (month_start,month_end) given a year and month.
     Both params are strings because we want month to be a two digit month representation
