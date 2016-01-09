@@ -1,0 +1,23 @@
+{
+  "name": "assets/css",
+  "version": "0.0.0",
+  "authors": [
+    "Patrick Spencer <patrick.spencer@mail.mizzou.edu>"
+  ],
+  "main": "main.scss",
+  "license": "Apache",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bourbon": "~4.2.3"
+  },
+  "devDependencies": {
+    "neat": "~1.7.2",
+    "normalize.css": "~3.0.3"
+  }
+}

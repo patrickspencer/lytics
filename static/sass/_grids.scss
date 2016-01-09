@@ -1,0 +1,14 @@
+$visual-grid: true;
+$visual-grid-color: red;
+$visual-grid-index: front;
+$visual-grid-opacity: 0.1;
+$small-screen:  new-breakpoint(max-width  768px  6);
+
+.wrapper {
+    @include outer-container(700px);
+    .primary { @include span-columns(12); }
+}
+
+.main-table {
+    margin-top: 50px;
+}

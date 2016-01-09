@@ -1,0 +1,26 @@
+/*
+Errno::EISDIR: Is a directory @ io_fread - sass/bower_components/normalize.scss
+
+Backtrace:
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/engine.rb:239:in `read'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/engine.rb:239:in `for_file'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/plugin/compiler.rb:488:in `update_stylesheet'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/plugin/compiler.rb:293:in `watch'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/plugin.rb:108:in `method_missing'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/exec/sass_scss.rb:384:in `watch_or_update'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/exec/base.rb:52:in `parse'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/lib/sass/exec/base.rb:19:in `parse!'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/gems/sass-3.4.16/bin/sass:13:in `<top (required)>'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/bin/sass:23:in `load'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/bin/sass:23:in `<main>'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/bin/ruby_executable_hooks:15:in `eval'
+/Users/Patrick/.rvm/gems/ruby-2.1.5/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Errno::EISDIR: Is a directory @ io_fread - sass/bower_components/normalize.scss"; }
