@@ -1,0 +1,38 @@
+{% extends "finances/base.jinja2" %}
+
+{% block title %}Recent Expenditures{% endblock %}
+
+{% block content %}
+  <div class="wrapper main-table">
+    <div class="primary">
+      <div>
+        <a href="/finances/recent">Recent Finances</a>
+        <a href="/finances/">This weeks' finances</a>
+      </div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for e in expenditures %}
+      <tr>
+        <td><a href="/finances/date/{{ e.date_year }}/{{ e.date_month }}/{{ e.date_day }}/">{{ e.date | strftime("%b, %d, %Y")}}</td>
+        <td>{{ e.time | strftime("%I:%M %p")}}</td>
+        <td>${{ e.cost }}</td>
+        <td><a href="/finances/category/{{ e.category_id }}">{{ e.category }}</a></td>
+        <td>{{ e.description }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div> <!-- /.primary -->
+  </div>   <!-- /.wrapper .main-table -->
+
+{% endblock %}
+

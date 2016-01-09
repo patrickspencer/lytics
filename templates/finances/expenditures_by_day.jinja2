@@ -1,0 +1,76 @@
+{% extends "finances/base.jinja2" %}
+
+{% block title %}Recent Expenditures{% endblock %}
+
+{% block content %}
+  <div class="wrapper main-table">
+    <div class="primary">
+      Expenditures for {{ date_dict.today | strftime("%a, %b %d, %Y") }}
+      <div>
+        <a href="/finances/">Finances Home</a>
+        <a href="/finances/date/{{ date_dict.yesterday | strftime("%Y") }}/
+{{ date_dict.yesterday | strftime("%m") }}/{{ date_dict.yesterday | strftime("%d") }}/">
+          << {{ date_dict.yesterday | strftime("%a, %b %Y") }}
+        </a>
+        <a href="/finances/date/{{ date_dict.tomorrow | strftime("%Y") }}/
+{{ date_dict.tomorrow | strftime("%m") }}/{{ date_dict.tomorrow | strftime("%d") }}/">
+        {{ date_dict.tomorrow | strftime("%a, %b %Y") }}>>
+        </a>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Sum</th>
+          </tr>
+        </thead>
+        {% for cat, cost in category_sums %}
+        <tr>
+          <td>{{ cat }}</td>
+          <td>${{ cost | roundfloat(2) }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td><b>Total:</b></td>
+          <td><b>${{ total_cost | roundfloat(2)}}</b></td>
+        </tr>
+      </table>
+
+      <table class="table table-bordered">
+        <tr>
+          {% for i in week_totals %}
+          <td><a href="/finances/date/{{ i.date | strftime("%Y") }}/{{ i.date | strftime("%m") }}/{{ i.date | strftime("%d") }}/">{{ i.date | strftime("%a, %b %d, %Y") }}</a></td>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for i in week_totals %}
+          <td>{{ i.total_cost | roundfloat(2)}}</td>
+          {% endfor %}
+        </tr>
+      </table>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for e in expenditures %}
+        <tr>
+          <td><a href="/finances/date/{{ e.date_year }}/{{ e.date_month }}/{{ e.date_day }}/">{{ e.date }}</td>
+          <td>{{ e.time | strftime("%I:%M %p") }}</td>
+          <td>${{ e.cost | roundfloat(2) }}</td>
+          <td><a href="/finances/category/{{ e.category_id }}">{{ e.category }}</a></td>
+          <td>{{ e.description }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div> <!-- /.primary -->
+  </div>   <!-- /.wrapper .main-table -->
+{% endblock %}
