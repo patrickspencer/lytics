@@ -12,8 +12,9 @@ from models import Expenditure
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 import helpers
+from datetime import datetime
 
-engine = create_engine('sqlite:///db.sqlite3', echo=True)
+engine = create_engine('sqlite:///db.sqlite3', echo=False)
 session = sessionmaker(bind=engine)
 Session = session()
 
@@ -41,3 +42,40 @@ def get_expenditures_in_month(year, month):
     """
     range = helpers.month_bounds(year,month)
     return get_expenditures_by_date_range(range[0],range[1])
+
+def create_expenditure(date, time, description, cost, category_id):
+    """
+    Create a new expenditure
+
+    :param date: string of the form "2015-03-20"
+    :param time: string of the form "17:00". No seconds.
+    :param description: string
+    :param cost: floating point number
+    :param category_id: integer
+    """
+
+    # sqlalchemy only accepts python date and time objects
+    pydate = datetime.strptime(date,"%Y-%m-%d").date()
+    pytime = datetime.strptime(time,"%H:%M").time()
+
+    expenditure = Expenditure(date=pydate, time=pytime, description=description,
+                              cost=cost, category_id=category_id)
+    Session.add(expenditure)
+    Session.flush()
+    Session.commit()
+    return expenditure.id
+
+def get_all_expenditures():
+    """
+    Return a list of all expenditures
+    """
+    return Session.query(Expenditure).all()
+
+def get_expenditure_by_id(expenditure_id):
+    """
+    Return an expenditure with the given id
+
+    :param expenditure_id: integer
+    """
+    return Session.query(Expenditure).get(expenditure_id)
+

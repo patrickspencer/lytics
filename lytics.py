@@ -13,18 +13,21 @@
 from flask import Flask
 from flask import render_template
 import queries
+from api import make_api
 
-app = Flask(__name__)
+app = Flask(__name__,)
 
 @app.route("/")
-def hello():
-    return "Hello World!"
+def index():
+    return render_template('index.jinja2')
 
 @app.route("/month/<year>/<month>")
 def month_view(year, month):
     e = queries.get_expenditures_in_month(year,month)
     return render_template('expenditures/month.jinja2',
             expenditures=e)
+
+make_api(app)
 
 if __name__ == "__main__":
         app.run(debug=True)

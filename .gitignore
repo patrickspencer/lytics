@@ -65,3 +65,5 @@ static/sass/vendor/
 static/.sass-cache
 db.sqlite3
 backupdb.py
+
+static/bower_components/

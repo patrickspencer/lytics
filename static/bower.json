@@ -1,0 +1,19 @@
+{
+  "name": "lytics_front_end",
+  "homepage": "https://github.com/patrickspencer/lytics",
+  "authors": [
+    "Patrick Spencer <pkspenc@gmail.com>"
+  ],
+  "license": "Apache 2.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8"
+  }
+}
