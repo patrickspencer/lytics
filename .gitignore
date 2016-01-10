@@ -67,3 +67,4 @@ db.sqlite3
 backupdb.py
 
 static/bower_components/
+scrap.py
