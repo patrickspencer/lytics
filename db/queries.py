@@ -8,13 +8,13 @@
     :license: Apache 2.0, see LICENSE for more details.
 """
 
-from models import Expenditure
-from sqlalchemy import create_engine, inspect
+from db.models import Expenditure
+from sqlalchemy import create_engine, inspect, desc, exists
 from sqlalchemy.orm import sessionmaker
 import helpers
 from datetime import datetime
 
-engine = create_engine('sqlite:///db.sqlite3', echo=False)
+engine = create_engine('sqlite:///db/db.sqlite3', echo=False)
 session = sessionmaker(bind=engine)
 Session = session()
 
@@ -26,7 +26,6 @@ def get_expenditures_by_date_range(begin_date,end_date):
     :param begin_date: a python datetime object.
     :param end_date: a python datetime object.
     """
-
     begin = begin_date.strftime('%Y-%m-%d')
     end = end_date.strftime('%Y-%m-%d')
     return Session.execute("SELECT * FROM finances_expenditure WHERE date BETWEEN :begin and :end",{"begin": begin, "end": end})
@@ -53,10 +52,12 @@ def create_expenditure(date, time, description, cost, category_id):
     :param cost: floating point number
     :param category_id: integer
     """
-
     # sqlalchemy only accepts python date and time objects
     pydate = datetime.strptime(date,"%Y-%m-%d").date()
-    pytime = datetime.strptime(time,"%H:%M").time()
+    if time:
+        pytime = datetime.strptime(time,"%H:%M").time()
+    else:
+        pytime = None
 
     expenditure = Expenditure(date=pydate, time=pytime, description=description,
                               cost=cost, category_id=category_id)
@@ -65,11 +66,23 @@ def create_expenditure(date, time, description, cost, category_id):
     Session.commit()
     return expenditure.id
 
-def get_all_expenditures():
+def expenditure_exists(expenditure_id):
+    """
+    Return True if expenditure with id exists and False otherwise
+    """
+    (ret, ), = Session.query(exists().where(Expenditure.id==expenditure_id))
+    return ret
+
+def get_expenditures(begin_id=0, end_id=20):
     """
     Return a list of all expenditures
+
+    :param
     """
-    return Session.query(Expenditure).all()
+    q = Session.query(Expenditure).order_by(desc(Expenditure.date))
+    # q = q.filter(Expenditure.id.between(begin_id,end_id))
+    q = q.limit(10)
+    return q
 
 def get_expenditure_by_id(expenditure_id):
     """
@@ -79,3 +92,13 @@ def get_expenditure_by_id(expenditure_id):
     """
     return Session.query(Expenditure).get(expenditure_id)
 
+def delete_expenditure_by_id(expenditure_id):
+    """
+    Delete an expenditure with the given id
+
+    :param expenditure_id: integer
+    """
+    q = Session.query(Expenditure).get(expenditure_id)
+    Session.delete(q)
+    Session.commit()
+    return q.id

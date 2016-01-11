@@ -20,6 +20,7 @@ class ExpenditureCategory(Base):
 
     id           = Column(Integer, primary_key=True)
     name         = Column(String)
+    description  = Column(String)
     expenditures = relationship('Expenditure', back_populates='category')
 
     def __repr__(self):
@@ -33,11 +34,38 @@ class Expenditure(Base):
     time         = Column(Time)
     description  = Column(String)
     cost         = Column(Float)
-    category_id  = Column(Integer, ForeignKey(ExpenditureCategory.id), nullable=True)
+    category_id  = Column(Integer, ForeignKey(ExpenditureCategory.id))
     category     = relationship('ExpenditureCategory', back_populates='expenditures')
 
     def __repr__(self):
        return "<Expenditure(date='%s', description='%s', cost='%s')>" % (self.date, self.description, self.cost)
+
+    def _get_category_name(self):
+        """
+        Check to see if self.category is None
+        """
+        if self.category:
+            return self.category.name
+        else:
+            return None
+
+    def _get_date(self):
+        """
+        Must check to see if date is None
+        """
+        if self.date:
+            return self.date.strftime("%Y-%m-%d")
+        else:
+            return None
+
+    def _get_time(self):
+        """
+        Must check to see if time is None
+        """
+        if self.time:
+            return self.time.strftime("%H:%M")
+        else:
+            return None
 
     @property
     def serialize(self):
@@ -46,10 +74,11 @@ class Expenditure(Base):
        """
        return {
            'id': self.id,
-           'date': self.date.strftime("%Y-%m-%d"),
-           'time': self.time.strftime("%H:%M"),
+           'date': self._get_date(),
+           'time': self._get_time(),
            'cost': self.cost,
            'description': self.description,
            'category_id': self.category_id,
-           'category': self.category.name
+           'category': self._get_category_name()
        }
+

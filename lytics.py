@@ -12,7 +12,7 @@
 
 from flask import Flask
 from flask import render_template
-import queries
+from db import queries
 from api import make_api
 
 app = Flask(__name__,)
