@@ -1,0 +1,23 @@
+<div class="wrapper main-table" ng-init="fetchExpenditures()">
+    <div class="primary">
+      Categories: {{foo}}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="c in categories">
+          <td>{{ c.id }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.description }}</td>
+          <td><a ng-click="delete(c.id)" href="#">delete</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div> <!-- /.primary -->
+  </div>   <!-- /.wrapper .main-table -->

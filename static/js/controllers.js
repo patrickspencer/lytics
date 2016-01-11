@@ -1,7 +1,6 @@
-var lyticsApp = angular.module('lyticsApp', []);
+var lyticsControllers = angular.module('lyticsControllers', []);
 
-lyticsApp.controller('CreateExpenditure', function($scope, $http) {
-
+lyticsControllers.controller('CreateExpenditure', function($scope, $http) {
 
     $scope.fetchExpenditures = function () {
       $http.get("/api/expenditures/")
@@ -29,6 +28,12 @@ lyticsApp.controller('CreateExpenditure', function($scope, $http) {
                 $scope.fetchExpenditures();
         });
     };
+
+});
+
+lyticsControllers.controller('ShowCategories', function($scope, $http) {
+
+    $scope.foo = 'bar';
 
 });
 
