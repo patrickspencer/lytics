@@ -18,6 +18,22 @@ engine = create_engine('sqlite:///db/db.sqlite3', echo=False)
 session = sessionmaker(bind=engine)
 Session = session()
 
+class QueryConn():
+    """
+    Establish a connection to the database. We want this to be a class so we
+    can pass a database path to a query connection. This makes testing easier
+    because, in the testing suite, we can specify we want all the queries to be
+    run on the test db.
+
+    Usage in tests:
+    query_conn = QueryConn(TEST_DATABASE_PATH)
+    query_conn.get_expenditures_by_date_range()
+    """
+    def __init__(self,DATABASE_PATH):
+        engine = create_engine('sqlite:///db/db.sqlite3', echo=False)
+        session = sessionmaker(bind=engine)
+        self.session = session()
+
 def get_expenditures_by_date_range(begin_date,end_date):
     """
     Returns a list of objects from the finances_expenditure table
