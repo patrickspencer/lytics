@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    queries
-    ~~~~~~~
+    db.queries
+    ~~~~~~~~~~
     A collection of database queries
 
     :copyright: (c) 2016 by Patrick Spencer.
@@ -13,10 +13,7 @@ from sqlalchemy import create_engine, inspect, desc, exists
 from sqlalchemy.orm import sessionmaker
 from lytics import helpers
 from datetime import datetime
-
-engine = create_engine('sqlite:///db/db.sqlite3', echo=False)
-session = sessionmaker(bind=engine)
-Session = session()
+import lytics
 
 class QueryConn():
     """
@@ -26,13 +23,39 @@ class QueryConn():
     run on the test db.
 
     Usage in tests:
-    query_conn = QueryConn(TEST_DATABASE_PATH)
+    query_conn = QueryConn(TEST_DATABASE_URI)
     query_conn.get_expenditures_by_date_range()
     """
-    def __init__(self,DATABASE_PATH):
-        engine = create_engine('sqlite:///db/db.sqlite3', echo=False)
+    def __init__(self,DATABASE_URI):
+        self.DATABASE_URI = DATABASE_URI
+        engine = create_engine(DATABASE_URI, echo=False)
         session = sessionmaker(bind=engine)
-        self.session = session()
+        self.Session = session()
+        print(self.Session.query(Expenditure).all())
+
+    def create_expenditure(self, date, time, description, cost, category_id):
+        """
+        Create a new expenditure
+
+        :param date: string of the form "2015-03-20"
+        :param time: string of the form "17:00". No seconds.
+        :param description: string
+        :param cost: floating point number
+        :param category_id: integer
+        """
+        # sqlalchemy only accepts python date and time objects
+        pydate = datetime.strptime(date,"%Y-%m-%d").date()
+        if time:
+            pytime = datetime.strptime(time,"%H:%M").time()
+        else:
+            pytime = None
+
+        expenditure = Expenditure(date=pydate, time=pytime, description=description,
+                                  cost=cost, category_id=category_id)
+        self.Session.add(expenditure)
+        self.Session.flush()
+        self.Session.commit()
+        return expenditure.id
 
 def get_expenditures_by_date_range(begin_date,end_date):
     """
@@ -58,29 +81,6 @@ def get_expenditures_in_month(year, month):
     range = helpers.month_bounds(year,month)
     return get_expenditures_by_date_range(range[0],range[1])
 
-def create_expenditure(date, time, description, cost, category_id):
-    """
-    Create a new expenditure
-
-    :param date: string of the form "2015-03-20"
-    :param time: string of the form "17:00". No seconds.
-    :param description: string
-    :param cost: floating point number
-    :param category_id: integer
-    """
-    # sqlalchemy only accepts python date and time objects
-    pydate = datetime.strptime(date,"%Y-%m-%d").date()
-    if time:
-        pytime = datetime.strptime(time,"%H:%M").time()
-    else:
-        pytime = None
-
-    expenditure = Expenditure(date=pydate, time=pytime, description=description,
-                              cost=cost, category_id=category_id)
-    Session.add(expenditure)
-    Session.flush()
-    Session.commit()
-    return expenditure.id
 
 def expenditure_exists(expenditure_id):
     """
