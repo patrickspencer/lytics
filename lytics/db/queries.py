@@ -8,10 +8,10 @@
     :license: Apache 2.0, see LICENSE for more details.
 """
 
-from db.models import Expenditure
+from lytics.db.models import Expenditure
 from sqlalchemy import create_engine, inspect, desc, exists
 from sqlalchemy.orm import sessionmaker
-import helpers
+from lytics import helpers
 from datetime import datetime
 
 engine = create_engine('sqlite:///db/db.sqlite3', echo=False)

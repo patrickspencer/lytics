@@ -10,7 +10,7 @@
 
 from flask.json import jsonify
 from flask_restful import Resource, Api, reqparse
-from db import queries
+from lytics.db import queries
 
 parser = reqparse.RequestParser()
 parser.add_argument('date')

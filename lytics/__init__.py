@@ -12,8 +12,8 @@
 
 from flask import Flask
 from flask import render_template
-from db import queries
-from api import make_api
+from lytics.db import queries
+from lytics.api import make_api
 
 app = Flask(__name__)
 
