@@ -15,7 +15,7 @@ from flask import render_template
 from db import queries
 from api import make_api
 
-app = Flask(__name__,)
+app = Flask(__name__)
 
 @app.route("/")
 def index():
