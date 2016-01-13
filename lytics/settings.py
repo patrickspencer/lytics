@@ -25,7 +25,7 @@ TEST_DATABASE_URI = path.join(DATABASE_DIR,'test_db.sqlite3')
 class Config(object):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = 'sqlite://%s' % DATABASE_URI
+    DATABASE_URI = 'sqlite:///%s' % DATABASE_URI
 
 class ProductionConfig(Config):
     """
@@ -40,4 +40,4 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    DATABASE_URI = 'sqlite://%s' % TEST_DATABASE_URI
+    DATABASE_URI = 'sqlite:///%s' % TEST_DATABASE_URI
