@@ -57,14 +57,13 @@ docs/_build/
 # PyBuilder
 target/
 
-panalytics/secrets.json
-dbbackups/
 *.ipynb
 .ipnyb_checkpoints
-static/sass/vendor/
-static/.sass-cache
-db.sqlite3
-backupdb.py
+lytics/static/sass/vendor/
+lytics/static/.sass-cache
+lytics/static/bower_components/
 
-static/bower_components/
+lytics/db/db.sqlite3
+lytics/db/test_db.sqlite3
+
 scrap.py
