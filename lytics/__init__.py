@@ -31,4 +31,5 @@ def month_view(year, month):
 make_api(app)
 
 if __name__ == "__main__":
+    app.config.from_object('lytics.settings.DevelopmentConfig')
     app.run(debug=True)
