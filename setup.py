@@ -7,7 +7,7 @@ readme = open('README.md').read()
 
 setup(
     name = 'lytics',
-    version = '0.3',
+    version = '0.4',
     description = "A webapp for keeping track of expenditures",
     long_description = readme,
     author = "Patrick Spencer",
