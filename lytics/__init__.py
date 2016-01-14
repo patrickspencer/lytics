@@ -19,8 +19,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return 'Blah'
-    # return render_template('index.jinja2')
+    return render_template('index.jinja2')
 
 @app.route("/month/<year>/<month>")
 def month_view(year, month):
