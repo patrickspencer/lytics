@@ -31,7 +31,6 @@ class QueryConn():
         engine = create_engine(DATABASE_URI, echo=False)
         session = sessionmaker(bind=engine)
         self.Session = session()
-        print(self.Session.query(Expenditure).all())
 
     def create_expenditure(self, date, time, description, cost, category_id):
         """
