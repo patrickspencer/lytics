@@ -27,7 +27,6 @@ class QueryConn():
     query_conn.get_expenditures_by_date_range()
     """
     def __init__(self,DATABASE_URI):
-        self.DATABASE_URI = DATABASE_URI
         engine = create_engine(DATABASE_URI, echo=False)
         session = sessionmaker(bind=engine)
         self.Session = session()
@@ -97,7 +96,7 @@ class QueryConn():
         q = self.Session.query(Expenditure).order_by(desc(Expenditure.date))
         # q = q.filter(Expenditure.id.between(begin_id,end_id))
         q = q.limit(10)
-        return q
+        return q.all()
 
     def get_expenditure_by_id(expenditure_id):
         """

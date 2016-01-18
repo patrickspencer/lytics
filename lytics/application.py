@@ -2,6 +2,7 @@ from flask import Flask
 from lytics import settings
 from flask_restful import Resource, Api, reqparse
 from lytics.db import queries
+from lytics.api import ExpenditureList, Expenditure
 
 def create_app(config_filename):
     """
@@ -15,10 +16,9 @@ def create_app(config_filename):
 
     from lytics.routes import main
 
-    with app.app_context():
-        app.register_blueprint(main)
-    # api = Api(app)
-    # api.add_resource(ExpenditureList, '/api/expenditures/')
-    # api.add_resource(Expenditure, '/api/expenditure/<expenditure_id>/')
+    app.register_blueprint(main)
+    api = Api(app)
+    api.add_resource(ExpenditureList, '/api/expenditures/')
+    api.add_resource(Expenditure, '/api/expenditure/<expenditure_id>/')
 
     return app
