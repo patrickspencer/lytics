@@ -56,64 +56,64 @@ class QueryConn():
         self.Session.commit()
         return expenditure.id
 
-def get_expenditures_by_date_range(begin_date,end_date):
-    """
-    Returns a list of objects from the finances_expenditure table
-    between two dates.
+    def get_expenditures_by_date_range(self,begin_date,end_date):
+        """
+        Returns a list of objects from the finances_expenditure table
+        between two dates.
 
-    :param begin_date: a python datetime object.
-    :param end_date: a python datetime object.
-    """
-    begin = begin_date.strftime('%Y-%m-%d')
-    end = end_date.strftime('%Y-%m-%d')
-    return Session.execute("SELECT * FROM finances_expenditure WHERE date BETWEEN :begin and :end",{"begin": begin, "end": end})
+        :param begin_date: a python datetime object.
+        :param end_date: a python datetime object.
+        """
+        begin = begin_date.strftime('%Y-%m-%d')
+        end = end_date.strftime('%Y-%m-%d')
+        return self.Session.execute("SELECT * FROM finances_expenditure WHERE "
+                "date BETWEEN :begin and :end",{"begin": begin, "end": end})
+
+    def get_expenditures_in_month(self,year,month):
+        """
+        Returns a list of objects from the finances_expenditure table
+        for a specific month.
+
+        :param year: four digit year as string e.g. "2016"
+        :param month: two digit month as string e.g. "02"
+        """
+        range = helpers.month_bounds(year,month)
+        return self.get_expenditures_by_date_range(range[0],range[1])
 
 
-def get_expenditures_in_month(year, month):
-    """
-    Returns a list of objects from the finances_expenditure table
-    for a specific month.
+    def expenditure_exists(self,expenditure_id):
+        """
+        Return True if expenditure with id exists and False otherwise
+        """
+        (ret, ), = self.Session.query(exists().where(Expenditure.id==expenditure_id))
+        return ret
 
-    :param year: four digit year as string e.g. "2016"
-    :param month: two digit month as string e.g. "02"
-    """
-    range = helpers.month_bounds(year,month)
-    return get_expenditures_by_date_range(range[0],range[1])
+    def get_expenditures(self,begin_id=0,end_id=20):
+        """
+        Return a list of all expenditures
 
+        :param
+        """
+        q = self.Session.query(Expenditure).order_by(desc(Expenditure.date))
+        # q = q.filter(Expenditure.id.between(begin_id,end_id))
+        q = q.limit(10)
+        return q
 
-def expenditure_exists(expenditure_id):
-    """
-    Return True if expenditure with id exists and False otherwise
-    """
-    (ret, ), = Session.query(exists().where(Expenditure.id==expenditure_id))
-    return ret
+    def get_expenditure_by_id(expenditure_id):
+        """
+        Return an expenditure with the given id
 
-def get_expenditures(begin_id=0, end_id=20):
-    """
-    Return a list of all expenditures
+        :param expenditure_id: integer
+        """
+        return Session.query(Expenditure).get(expenditure_id)
 
-    :param
-    """
-    q = Session.query(Expenditure).order_by(desc(Expenditure.date))
-    # q = q.filter(Expenditure.id.between(begin_id,end_id))
-    q = q.limit(10)
-    return q
+    def delete_expenditure_by_id(self,expenditure_id):
+        """
+        Delete an expenditure with the given id
 
-def get_expenditure_by_id(expenditure_id):
-    """
-    Return an expenditure with the given id
-
-    :param expenditure_id: integer
-    """
-    return Session.query(Expenditure).get(expenditure_id)
-
-def delete_expenditure_by_id(expenditure_id):
-    """
-    Delete an expenditure with the given id
-
-    :param expenditure_id: integer
-    """
-    q = Session.query(Expenditure).get(expenditure_id)
-    Session.delete(q)
-    Session.commit()
-    return q.id
+        :param expenditure_id: integer
+        """
+        q = self.Session.query(Expenditure).get(expenditure_id)
+        self.Session.delete(q)
+        self.Session.commit()
+        return q.id
