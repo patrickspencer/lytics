@@ -13,7 +13,7 @@ from flask.json import jsonify
 from flask_restful import Resource, Api, reqparse
 from lytics.db import queries
 import lytics
-from lytics.settings import DevelopmentConfig
+from lytics import settings
 
 parser = reqparse.RequestParser()
 parser.add_argument('date')
@@ -22,7 +22,7 @@ parser.add_argument('description')
 parser.add_argument('cost')
 parser.add_argument('category_id')
 
-query_conn = queries.QueryConn(DevelopmentConfig.DATABASE_URI)
+query_conn = queries.QueryConn(settings.DATABASE_URI)
 
 def abort_if_expenditure_does_not_exist(expenditure_id):
     if not query_conn.expenditure_exists(expenditure_id):

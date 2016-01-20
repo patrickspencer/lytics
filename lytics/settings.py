@@ -18,14 +18,13 @@ from os import path
 BASE_PATH = path.dirname(path.abspath(__file__))
 
 DATABASE_DIR = path.join(BASE_PATH,'db')
-DATABASE_URI = path.join(DATABASE_DIR,'db.sqlite3')
-TEST_DATABASE_URI = path.join(DATABASE_DIR,'test_db.sqlite3')
+DATABASE_URI = "sqlite:///%s" % path.join(DATABASE_DIR,'db.sqlite3')
+TEST_DATABASE_URI = "sqlite:///%s" % path.join(DATABASE_DIR,'test_db.sqlite3')
 
 
 class Config(object):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = 'sqlite:///%s' % DATABASE_URI
 
 class ProductionConfig(Config):
     """
@@ -40,4 +39,3 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    DATABASE_URI = 'sqlite:///%s' % TEST_DATABASE_URI
